@@ -1,0 +1,68 @@
+{
+    "aggs": {
+        "2": {
+            "histogram": {
+                "script": {
+                    "source": "def date = doc['date'].value; \nDayOfWeek dayOfWeek = DayOfWeek.valueOf('MONDAY');\ndate = date.with(TemporalAdjusters.previousOrSame(dayOfWeek)).plusWeeks(1); \nreturn date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);",
+                    "lang": "painless"
+                },
+                "interval": 1,
+                "min_doc_count": 1
+            },
+            "aggs": {
+                "1": {
+                    "avg": {
+                        "field": "t_avg"
+                    }
+                }
+            }
+        }
+    },
+    "size": 0,
+    "_source": {
+        "excludes": []
+    },
+    "stored_fields": [
+        "*"
+    ],
+    "script_fields": {
+        "week of year": {
+            "script": {
+                "source": "def date = doc['date'].value; \nDayOfWeek dayOfWeek = DayOfWeek.valueOf('MONDAY');\ndate = date.with(TemporalAdjusters.previousOrSame(dayOfWeek)).plusWeeks(1); \nreturn date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);",
+                "lang": "painless"
+            }
+        }
+    },
+    "docvalue_fields": [
+        {
+            "field": "date",
+            "format": "date_time"
+        }
+    ],
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "range": {
+                        "date": {
+                            "format": "strict_date_optional_time",
+                            "gte": "2015-08-20T17:54:08.218Z",
+                            "lte": "now"
+                        }
+                    }
+                }
+            ],
+            "filter": [
+                {
+                    "match_all": {}
+                },
+                {
+                    "match_all": {}
+                }
+            ],
+            "should": [],
+            "must_not": []
+        }
+    },
+    "timeout": "30000ms"
+}

@@ -20,11 +20,13 @@ months.forEach(month => {
                     url: 'http://localhost:9200/daily_temperature/_doc', body: {
                         station_id: stationId,
                         date,
+                        year,
                         t_min: parseFloat(t_min.replace(',', '.')),
                         t_max: parseFloat(t_max.replace(',', '.')),
-                        t_avg: parseFloat(t_avg.replace(',', '.'))
+                        t_avg: parseFloat(t_avg.replace(',', '.')),
+                        week_number: weekOfYear(date),
+                        month: parseInt(date.split('-')[1])
                     },
-                    week_number: weekOfYear(date),
                     json: true
                 })
             });

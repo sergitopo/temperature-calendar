@@ -1,6 +1,6 @@
 module.exports = function getWeekOfYear(dateString) {
     // Copy date so don't modify original
-    const [dat, month, year] = dateString.split('-');
+    const [day, month, year] = dateString.split('-');
     d = new Date(year, month, day);
     // Set to nearest Thursday: current date + 4 - current day number
     // Make Sunday's day number 7

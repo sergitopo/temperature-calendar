@@ -13,6 +13,7 @@ export default {
     name: 'App',
     data() {
         return {
+            dailyTemperature: null,
             finishProcess: false,
             dates: [
                 {
@@ -102,6 +103,53 @@ export default {
             colorMapRange: [-5, -3.5, -2, -1, 1, 2, 3.5, 5]
         }
     },
+    async created() {
+        /* const response = await fetch('http://ec2-3-250-218-11.eu-west-1.compute.amazonaws.com/elastic/daily_temperature/_search', {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'force-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'origin', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify({
+                "aggs": {
+                    "2": {
+                        "histogram": {
+                            "field": "week_number",
+                            "interval": 1,
+                            "min_doc_count": 1
+                        },
+                        "aggs": {
+                            "1": {
+                                "avg": {
+                                    "field": "t_avg"
+                                }
+                            }
+                        }
+                    }
+                },
+                "size": 0,
+                "_source": {
+                    "excludes": []
+                },
+                "stored_fields": [
+                    "*"
+                ],
+                "script_fields": {},
+                "docvalue_fields": [
+                    {
+                        "field": "date",
+                        "format": "date_time"
+                    }
+                ],
+                "timeout": "30000ms"
+            })
+        });
+        this.dailyTemperature = await response.json(); */
+    },
     updated() {
         const calendar = this.$refs.calendar;
         calendar && calendar.move({ month: 1, year: 2020 })
@@ -111,7 +159,7 @@ export default {
         let currentDayProcessed = firstDayOfYear;
         const today = new Date();
         let dayCounter = 0;
-        while (currentDayProcessed <= today) {
+        while (currentDayProcessed < today) {
             const date = new Date(currentDayProcessed);
             const anomaly = this.calculateDayAnomaly(currentDayProcessed, dayCounter);
             dayCounter++;
@@ -143,7 +191,7 @@ export default {
         calculateDayAnomaly(date, dayOfYear) {
             try {
                 const weekOfTheYear = this.getWeekNumber(date);
-                const weeOfTheYearAvgTemperature = weekOfYearAvg.responses[0].aggregations['2'].buckets.find(obj => obj.key === weekOfTheYear)['1'].value;
+                const weeOfTheYearAvgTemperature = weekOfYearAvg.aggregations['2'].buckets.find(obj => obj.key === weekOfTheYear)['1'].value;
                 const anomaly = dailyTemperature.hits.hits[dayOfYear]._source.t_avg - weeOfTheYearAvgTemperature;
                 return anomaly;
             } catch (e) {
@@ -198,6 +246,6 @@ export default {
     background-color: #2166ac;
 }
 .vc-rounded-full {
-    border-radius: 0;
+    border-radius: 0!important;
 }
 </style>

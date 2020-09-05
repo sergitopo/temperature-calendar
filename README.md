@@ -13,11 +13,11 @@ After that, just do the same but *npm serve* command instead.
 The data about daily temperatures and the weekly averages to calculate the anomalies are stored in a Elastisearch instance, if you want to include you temperature/meteorologic station record data just insert data with the *daily_temperature* index, following the same structure.
 A record with the following data at least:
 
-  -temperature_avg: (Floating number in Cº degrees)
-  -station id: an identifier to your station
-  -date: e.g "15-10-2020"
-  -week_number: (integer the week of the year the day belongs to)
-  -month: (integer from 1 to 12)
+  - temperature_avg: (Floating number in Cº degrees)
+  - station id: an identifier to your station
+  - date: e.g "15-10-2020"
+  - week_number: (integer the week of the year the day belongs to)
+  - month: (integer from 1 to 12)
   
 Once you have some years of date in the index, the client request to elastic form the average temperature for each week of the year, and computes the anomalies for every day and  a color is assigned to it afterwards.
 

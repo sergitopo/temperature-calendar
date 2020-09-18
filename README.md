@@ -21,7 +21,7 @@ A record with the following data at least:
   
 Once you have some years of date in the index, the client request to elastic form the average temperature for each week of the year, and computes the anomalies for every day and  a color is assigned to it afterwards.
 
-# Scrapping process
+# Scrapping process 
 
   For the case of the examaple, I don't have the daily data of my town, but it is collected and published by a non-professional meteorologic association called avamet.
 [Avamet](https://avamet.org)

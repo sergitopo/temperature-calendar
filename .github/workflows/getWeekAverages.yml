@@ -25,9 +25,9 @@ jobs:
       # Runs a single command using the runners shell
       - name: fetching new data from elastic
         run: |
-          curl http://ec2-3-250-218-11.eu-west-1.compute.amazonaws.com/elastic/daily_temperature/_search -XPOST -H 'Content-Type: application/json' -d '{"aggs":{"2":{"histogram":{"field":"week_number","interval":1,"min_doc_count":1},"aggs":{"1":{"avg":{"field":"t_avg"}}}}}}' > weekly-avg.json,
-          curl http://ec2-3-250-218-11.eu-west-1.compute.amazonaws.com/elastic/daily_temperature/_search -XPOST -H 'Content-Type: application/json' -d '{"size":500,"sort":[{"date":{"order":"asc","unmapped_type":"boolean"}}],"query":{"bool":{"must":[{"range":{"date":{"format":"strict_date_optional_time","gte":"2019-12-31T23:00:00.000Z","lte":"now"}}}]}}}' > daily-temperatures.json,
-          mv ./*.json ./client/page
+          curl http://ec2-3-250-218-11.eu-west-1.compute.amazonaws.com/elastic/daily_temperature/_search -XPOST -H 'Content-Type: application/json' -d '{"aggs":{"2":{"histogram":{"field":"week_number","interval":1,"min_doc_count":1},"aggs":{"1":{"avg":{"field":"t_avg"}}}}}}' > weekly-avg.json
+          curl http://ec2-3-250-218-11.eu-west-1.compute.amazonaws.com/elastic/daily_temperature/_search -XPOST -H 'Content-Type: application/json' -d '{"size":500,"sort":[{"date":{"order":"asc","unmapped_type":"boolean"}}],"query":{"bool":{"must":[{"range":{"date":{"format":"strict_date_optional_time","gte":"2019-12-31T23:00:00.000Z","lte":"now"}}}]}}}' > daily-temperatures.json
+          mv *.json ./client/page
       - name: Commit files
         run: |
           git config --local user.email "action@github.com"

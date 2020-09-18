@@ -102,4 +102,8 @@ export default {
   transform: scale(1.1);
 }
 
+.vc-day-content {
+    width: calc(var(--day-content-width) + 10px)!important;
+}
+
 </style>

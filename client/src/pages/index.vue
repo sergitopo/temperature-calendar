@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <calendar @dayclick="getDayTemperatures" :from-date="new Date('01-01-2020')" :to-date="new Date()" ref="calendar" v-if="finishProcess" :attributes="dates" is-expanded :columns="$screens({ lg: 4, md: 2 }, 1)" :rows="$screens({ lg: 3, md: 6 }, 12)"></calendar>
+        <calendar @dayclick="getDayTemperatures" @update:from-page="onYearBack" :from-date="new Date('01-01-2020')" v-if="created" :to-date="new Date()" ref="calendar" :attributes="calculatedDates" is-expanded :columns="$screens({ lg: 4, md: 2 }, 1)" :rows="$screens({ lg: 3, md: 6 }, 12)"></calendar>
         <modal v-if="showDateInfo" @close="showDateInfo = false">
             <slot name="header">
                 <h3 slot="header">{{daySelected.day}}</h3>
@@ -12,24 +12,22 @@
                 </div>
             </slot>
         </modal>
+        <main-menu/>
     </div>
 </template>
 
 <script>
 
-import modal from './components/Modal';
-
 export default {
     name: 'App',
-    components: {
-         modal
-    },
     data() {
         return {
             daySelected: null,
             dailyTemperature: null,
             showDateInfo: false,
-            finishProcess: false,
+            calculatedDates: [],
+            created: false,
+            calendar: null,
             dates: [
                 {
                     key: 'blue',
@@ -121,10 +119,10 @@ export default {
             colorMapRange: [-5, -3.5, -1.5, 1.5, 3.5, 5]
         }
     },
-    async created() {
-        const url = 'http://ec2-3-250-218-11.eu-west-1.compute.amazonaws.com/elastic/daily_temperature/_search';
-        const response = await fetch(url, {
-            method: 'POST',
+    fetchOnServer: false,
+    async fetch() {
+        const response = await fetch(process.env.baseURL + 'daily-temperatures.json', {
+            method: 'GET',
             mode: 'cors',
             cache: 'force-cache',
             credentials: 'same-origin',
@@ -132,29 +130,11 @@ export default {
                 'Content-Type': 'application/json'
             },
             redirect: 'follow',
-            referrerPolicy: 'origin',
-            body: JSON.stringify({
-                "aggs": {
-                    "2": {
-                        "histogram": {
-                            "field": "week_number",
-                            "interval": 1,
-                            "min_doc_count": 1
-                        },
-                        "aggs": {
-                            "1": {
-                                "avg": {
-                                    "field": "t_avg"
-                                }
-                            }
-                        }
-                    }
-                }
-            })
+            referrerPolicy: 'origin'
         });
-        this.weekOfYearAvg = await response.json();
-        const response2 = await fetch(url, {
-            method: 'POST',
+        this.dailyTemperature = await response.json();
+        const response2 = await fetch(process.env.baseURL + 'weekly-avg.json', {
+            method: 'GET',
             mode: 'cors',
             cache: 'force-cache',
             credentials: 'same-origin',
@@ -162,42 +142,23 @@ export default {
                 'Content-Type': 'application/json'
             },
             redirect: 'follow',
-            referrerPolicy: 'origin',
-            body: JSON.stringify({
-                "size":500,
-                "sort":[
-                    {
-                        "date":{
-                            "order":"asc",
-                            "unmapped_type":"boolean"
-                        }
-                    }
-                ],
-                "query":{
-                    "bool":{
-                        "must":[
-                            {
-                            "range":{
-                                "date":{
-                                    "format":"strict_date_optional_time",
-                                    "gte":"2019-12-31T23:00:00.000Z",
-                                    "lte":"now"
-                                }
-                            }
-                            }
-                        ]
-                    }
-                }
-            })
+            referrerPolicy: 'origin'
+
         });
-        this.dailyTemperature = await response2.json();
+        this.weekOfYearAvg = await response2.json();
         this.calculateCurrentYearAnomalies();
     },
-     updated() {
-        const calendar = this.$refs.calendar;
-        calendar && calendar.focusDate(new Date());
+    mounted() {
+        this.created = true;
+        this.$nextTick(() => {
+            this.calendar = this.$refs.calendar;
+           this.calendar.focusDate && this.calendar.focusDate(new Date());
+        });
     },
     methods: {
+        onYearBack(val) {
+            console.log(val)
+        },
         calculateCurrentYearAnomalies() {
             const firstDayOfYear = new Date ('01-01-2020');
             let currentDayProcessed = firstDayOfYear;
@@ -212,7 +173,7 @@ export default {
                 dateCategory && dateCategory.dates.push(date);
                 currentDayProcessed.setDate(currentDayProcessed.getDate() + 1);
             }
-            this.finishProcess = true;
+            this.calculatedDates = this.dates;
         },
         getDayColorFromAnomaly(anomaly) {
 
@@ -306,5 +267,14 @@ export default {
 }
 .vc-rounded-full {
     border-radius: 0!important;
+}
+.phone-viewport {
+    position: fixed;
+    bottom:1px;
+    width: 100vw;
+    z-index: 1;
+}
+.vc-day-content {
+    width: calc(var(--day-content-width) + 10px)!important;
 }
 </style>

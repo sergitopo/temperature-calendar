@@ -4,14 +4,17 @@
   "private": true,
   "description": "Webapp calendar visualization of temeratures anomalyes",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "nuxt",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "material-design-icons": "^3.0.1",
     "v-calendar": "^1.0.8",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-material": "^1.0.0-beta-15",
+    "vue-material-design-icons": "^4.9.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -20,6 +23,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "nuxt": "^2.14.4",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

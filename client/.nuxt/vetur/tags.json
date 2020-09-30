@@ -1,0 +1,14 @@
+{
+  "MainMenu": {
+    "description": "Auto imported from components/MainMenu.vue"
+  },
+  "LazyMainMenu": {
+    "description": "Auto imported from components/MainMenu.vue"
+  },
+  "Modal": {
+    "description": "Auto imported from components/modal.vue"
+  },
+  "LazyModal": {
+    "description": "Auto imported from components/modal.vue"
+  }
+}

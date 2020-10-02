@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <calendar @dayclick="getDayTemperatures" @update:to-page="onYearChange" @update:from-page="onYearChange" :from-date="new Date(`01-01-${this.year}`)" v-if="created" :to-date="new Date()" ref="calendar" :attributes="calculatedDates" is-expanded :columns="$screens({ lg: 4, md: 2 }, 1)" :rows="$screens({ lg: 3, md: 6 }, 12)"></calendar>
+        <calendar :class="{'avoid-back-arrow': this.year === 2016}" @dayclick="getDayTemperatures" @update:to-page="onYearChange" @update:from-page="onYearChange" :from-date="new Date(`01-01-${this.year}`)" v-if="created" :to-date="new Date()" ref="calendar" :attributes="calculatedDates" is-expanded :columns="$screens({ lg: 4, md: 2 }, 1)" :rows="$screens({ lg: 3, md: 6 }, 12)"></calendar>
         <modal v-if="showDateInfo" @close="showDateInfo = false">
             <slot name="header">
                 <h3 slot="header">{{daySelected.day}}</h3>
@@ -306,5 +306,9 @@ export default {
 }
 .vc-w-full.vc-relative {
     padding-bottom: 3rem;
+}
+
+.avoid-back-arrow .vc-arrows-container.title-center > div:first-child {
+    display: none;
 }
 </style>

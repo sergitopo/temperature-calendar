@@ -9,5 +9,8 @@ export default {
     target: 'static',
     router: {
       base: '/temperature-calendar/client/page/'
+    },
+    build: {
+      publicPath: '/assets/'
     }
   }

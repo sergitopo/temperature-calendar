@@ -4,5 +4,6 @@ export default {
     env: {
       baseURL: (process.env.NODE_ENV === 'production' ? './' : 'http://localhost:3000/')
     },
+    mode: 'spa',
     components: true
   }

@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <calendar @dayclick="getDayTemperatures" @update:from-page="onYearBack" :from-date="new Date('01-01-2020')" v-if="created" :to-date="new Date()" ref="calendar" :attributes="calculatedDates" is-expanded :columns="$screens({ lg: 4, md: 2 }, 1)" :rows="$screens({ lg: 3, md: 6 }, 12)"></calendar>
+        <calendar @dayclick="getDayTemperatures" @update:to-page="onYearChange" @update:from-page="onYearChange" :from-date="new Date(`01-01-${this.year}`)" v-if="created" :to-date="new Date()" ref="calendar" :attributes="calculatedDates" is-expanded :columns="$screens({ lg: 4, md: 2 }, 1)" :rows="$screens({ lg: 3, md: 6 }, 12)"></calendar>
         <modal v-if="showDateInfo" @close="showDateInfo = false">
             <slot name="header">
                 <h3 slot="header">{{daySelected.day}}</h3>
@@ -28,6 +28,8 @@ export default {
             calculatedDates: [],
             created: false,
             calendar: null,
+            visitedYearSet: new Set(),
+            year: 2020,
             dates: [
                 {
                     key: 'blue',
@@ -121,48 +123,73 @@ export default {
     },
     fetchOnServer: false,
     async fetch() {
-        const response = await fetch(process.env.baseURL + 'daily-temperatures.json', {
-            method: 'GET',
-            mode: 'cors',
-            cache: 'force-cache',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: 'follow',
-            referrerPolicy: 'origin'
-        });
-        this.dailyTemperature = await response.json();
-        const response2 = await fetch(process.env.baseURL + 'weekly-avg.json', {
-            method: 'GET',
-            mode: 'cors',
-            cache: 'force-cache',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: 'follow',
-            referrerPolicy: 'origin'
-
-        });
-        this.weekOfYearAvg = await response2.json();
-        this.calculateCurrentYearAnomalies();
+        const process = await this.requestData()
+        this.calculateCurrentYearAnomalies(this.year);
     },
     mounted() {
+        this.visitedYearSet.add(this.year);
         this.created = true;
         this.$nextTick(() => {
             this.calendar = this.$refs.calendar;
-           this.calendar.focusDate && this.calendar.focusDate(new Date());
+            this.calendar.focusDate && this.calendar.focusDate(new Date());
         });
     },
     methods: {
-        onYearBack(val) {
-            console.log(val)
+        async requestData() {
+            const year = this.year === 2020 ? '' : `-${this.year}`;
+            const response = await fetch(`${process.env.baseURL}daily-temperatures${year}.json`, {
+                method: 'GET',
+                mode: 'cors',
+                cache: 'force-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'origin'
+            });
+            this.dailyTemperature = await response.json();
+            const response2 = await fetch(process.env.baseURL + 'weekly-avg.json', {
+                method: 'GET',
+                mode: 'cors',
+                cache: 'force-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'origin'
+
+            });
+            this.weekOfYearAvg = await response2.json();
+            return true;
         },
-        calculateCurrentYearAnomalies() {
-            const firstDayOfYear = new Date ('01-01-2020');
+        async onYearChange(val) {
+            //TODO, use the set to avoid calculate anomalies already calculated
+            if (val.year === this.year) {
+                return;
+            }
+            this.year = val.year;
+            this.clearCalculatedAnomalies();
+            this.created = false;
+            this.visitedYearSet.add(this.year);
+            const requested = await this.requestData();
+            this.calculateCurrentYearAnomalies(val.year);
+            this.created = true;
+        },
+        clearCalculatedAnomalies() {
+            this.dates.forEach(el => {
+                el.dates = [];
+            });
+        },
+        calculateCurrentYearAnomalies(year) {
+            const firstDayOfYear = new Date (`01-01-${year}`);
             let currentDayProcessed = firstDayOfYear;
-            const today = new Date();
+            let today = new Date();
+            //FEXME
+            if (year !== 2020) {
+                today == new Date (`12-31-${year}`);
+            }
             let dayCounter = 0;
             while (currentDayProcessed < today) {
                 const date = new Date(currentDayProcessed);
@@ -205,8 +232,8 @@ export default {
         },
         getDayTemperatures(day) {
             const oneDay = 24 * 60 * 60 * 1000;
-            const weekOfTheYear = this.getWeekNumber( day.date);
-            const dayOfYear = Math.round(Math.abs((day.date - new Date ('01-01-2020')) / oneDay));
+            const weekOfTheYear = this.getWeekNumber(day.date);
+            const dayOfYear = Math.round(Math.abs((day.date - new Date (`01-01-${this.year}`)) / oneDay));
             const weekOfTheYearAvgTemperature = this.weekOfYearAvg.aggregations['2'].buckets.find(obj => obj.key === weekOfTheYear)['1'].value;
             const dayTemperature = this.dailyTemperature.hits.hits[dayOfYear]._source.t_avg;
             console.log(dayTemperature);
@@ -276,5 +303,8 @@ export default {
 }
 .vc-day-content {
     width: calc(var(--day-content-width) + 10px)!important;
+}
+.vc-w-full.vc-relative {
+    padding-bottom: 3rem;
 }
 </style>

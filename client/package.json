@@ -5,12 +5,12 @@
   "description": "Webapp calendar visualization of temeratures anomalyes",
   "scripts": {
     "serve": "nuxt",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "nuxt build",
+    "lint": "vue-cli-service lint",
+    "generate": "nuxt generate"
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "material-design-icons": "^3.0.1",
     "v-calendar": "^1.0.8",
     "vue": "^2.6.11",
     "vue-material": "^1.0.0-beta-15",

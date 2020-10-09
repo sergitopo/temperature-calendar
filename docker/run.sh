@@ -1,0 +1,1 @@
+docker run --name my-custom-nginx-container -d -p 80:80 -v C:\\Users\\Sergi\\projectes\\temperature-calendar\\client\\dist:/usr/share/nginx/html/temperature-calendar/client/page/ nginx

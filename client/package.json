@@ -7,7 +7,8 @@
     "serve": "nuxt",
     "build": "nuxt build",
     "lint": "vue-cli-service lint",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "start": "nuxt start"
   },
   "dependencies": {
     "core-js": "^3.6.5",

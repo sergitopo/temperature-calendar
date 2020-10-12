@@ -12,7 +12,6 @@
                 </div>
             </slot>
         </modal>
-        <main-menu/>
     </div>
 </template>
 
@@ -22,6 +21,7 @@ import DailyYearAnomaliesCalculator from '@/mixins/DailyYearAnomaliesCalculator'
 
 export default {
     name: 'App',
+    layout: 'menu',
     data() {
         return {
             year: 2016

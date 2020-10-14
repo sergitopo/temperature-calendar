@@ -1,13 +1,15 @@
 <template>
-    <current-year-page/>
 </template>
 
 <script>
-import currentYearPage from './2020/index.vue';
+
+const currentYear = 2020;
 
 export default {
-    components: {
-        currentYearPage
+    
+    created() {
+       this.$router.push(`/${currentYear}`)
     }
 }
 </script>
+

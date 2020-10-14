@@ -7,6 +7,7 @@ const colorPalette =  [
     'orange',
     'red'
 ];
+const currentYear = 2020;
 const colorMapRange =  [-5, -3.5, -1.5, 1.5, 3.5, 5];
 
 const getWeekNumber = (d) => {
@@ -147,6 +148,7 @@ export default {
             created: false,
             calendar: null,
             visitedYearSet: new Set(),
+            currentYear
         }
     },
     // fetchOnServer: false,
@@ -156,8 +158,8 @@ export default {
     // },
     async asyncData(context) {
         let year = parseInt(context.route.name);
-        year = year ? year : 2020;
-        year = year === 2020 ? '' : `-${year}`;
+        year = year ? year : currentYear;
+        year = year === currentYear ? '' : `-${year}`;
         const response = await fetch(process.env.baseURL + `daily-temperatures${year}.json`, {
             method: 'GET',
             mode: 'cors',
@@ -191,12 +193,12 @@ export default {
         this.created = true;
         this.$nextTick(() => {
             this.calendar = this.$refs.calendar;
-            this.year === 2020 && this.calendar.focusDate && this.calendar.focusDate(new Date());
+            this.year === this.currentYear && this.calendar.focusDate && this.calendar.focusDate(new Date());
         });
     },
     methods: {
         async requestData() {
-            const year = this.year === 2020 ? '' : `-${this.year}`;
+            const year = this.year === this.currentYear ? '' : `-${this.year}`;
             const response = await fetch(`${process.env.baseURL}daily-temperatures${year}.json`, {
                 method: 'GET',
                 mode: 'cors',
@@ -208,7 +210,7 @@ export default {
                 redirect: 'follow',
                 referrerPolicy: 'origin'
             });
-            const dailyTemperature = await response.json();
+            this.dailyTemperature = await response.json();
             const response2 = await fetch(process.env.baseURL + 'weekly-avg.json', {
                 method: 'GET',
                 mode: 'cors',
@@ -221,14 +223,17 @@ export default {
                 referrerPolicy: 'origin'
 
             });
-            const weekOfYearAvg = await response2.json();
-            this.calculatedDates = calculateCurrentYearAnomalies(dailyTemperature, weekOfYearAvg, parseInt(this.year));
+            this.weekOfYearAvg = await response2.json();
+            this.calculatedDates = calculateCurrentYearAnomalies(this.dailyTemperature, this.weekOfYearAvg, parseInt(this.year));
         },
         onYearChange(val) {
             if (val.year === this.year && this.create === true) {
                 this.created = false;
                 return;
             }
+            /* if (val.year === this.currentYear) {
+                this.$router.push('/');
+            } */
             this.$router.push(`/${val.year}`);
         },
         getDayTemperatures(day) {

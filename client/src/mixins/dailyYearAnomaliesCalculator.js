@@ -25,6 +25,17 @@ const getWeekNumber = (d) => {
 }
 const calculateCurrentYearAnomalies = (dailyTemperature, weekOfYearAvg,  year) => {
     const dates  = [
+        {
+            key: 'blue',
+            popover: {
+                label: `Temperatura mitja >1.5º per baix del normal`
+            },
+            highlight: {
+                contentClass: 'anomaly-cold--1',
+                fillMode: 'light'
+            },
+            dates: [],
+        },
          {
             key: 'indigo',
             popover: {

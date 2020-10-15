@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <calendar class="avoid-forward-arrow" @dayclick="getDayTemperatures" @update:to-page="onYearChange" @update:from-page="onYearChange" :from-date="new Date(`01-01-${this.year}`)" v-if="created" :to-date="new Date()" ref="calendar" :attributes="calculatedDates" is-expanded :columns="$screens({ lg: 4, md: 2 }, 1)" :rows="$screens({ lg: 3, md: 6 }, 12)"></calendar>
+        <calendar class="avoid-forward-arrow temperature-calendar" @dayclick="getDayTemperatures" @update:to-page="onYearChange" @update:from-page="onYearChange" :from-date="new Date(`01-01-${this.year}`)" v-if="created" :to-date="new Date()" ref="calendar" :attributes="calculatedDates" is-expanded :columns="$screens({ lg: 4, md: 2 }, 1)" :rows="$screens({ lg: 3, md: 6 }, 12)"></calendar>
         <modal v-if="showDateInfo" @close="showDateInfo = false">
             <slot name="header">
                 <h3 slot="header">{{daySelected.day}}</h3>
@@ -85,5 +85,12 @@ export default {
 }
 .avoid-forward-arrow .vc-arrows-container.title-center > div:last-child {
     display: none;
+}
+.md-bottom-bar.md-type-fixed .md-bottom-bar-item {
+    min-width: 80px;
+    max-width: unset;
+    transition: .4s cubic-bezier(.4,0,.2,1);
+    transition-property: color;
+    will-change: color;
 }
 </style>

@@ -1,6 +1,7 @@
 import Vue from 'vue'
-import { MdBottomBar , MdIcon  } from 'vue-material/dist/components';
+import { MdButton, MdBottomBar , MdIcon  } from 'vue-material/dist/components';
 
 
-Vue.use(MdBottomBar)
-Vue.use(MdIcon)
+Vue.use(MdBottomBar);
+Vue.use(MdIcon);
+Vue.use(MdButton);

@@ -19,6 +19,14 @@ export default {
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },
             { hid: 'description', name: 'description', content: 'Year temperatures anomalies' }
         ]
+    },
+    generate: {
+        routes: [
+          '/2016',
+          '/2017',
+          '/2018',
+          '/2019'
+        ]
     }
-  }
+}
   

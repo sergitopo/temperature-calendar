@@ -12,7 +12,7 @@
                         <span class="md-bottom-bar-label">Calendari</span>
                 </md-bottom-bar-item>
 
-                <md-bottom-bar-item>
+                <md-bottom-bar-item @click="$router.push('/monthly')">
                     <article-icon/>
                         <span class="md-bottom-bar-label">Mesos</span>
                 </md-bottom-bar-item>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="calculated" class="md-layout md-gutter md-alignment-center" style="margin: 2em;">
+  <div v-if="calculated" class="md-layout md-gutter md-alignment-center" style="margin: 2em; margin-bottom: 3rem">
     <div v-for="month in months" class="md-layout-item md-large-size-100 centered-text" style="padding-top: 0.5em" :style="{'background': month.color, 'color': month.textColor}">{{month.text || month.name}}</div>
   </div>
 </template>
@@ -28,7 +28,7 @@
         layout: 'menu',
         created() {
             this.months = this.months.map(month => {return  {name: month}});
-            this.requestData();
+            this.requestMonthData();
         },
         methods: {
             calculateMonthsAnomalies() {
@@ -63,7 +63,7 @@
                     return this.colorPalette[6];
                 }
             },
-            async requestData() {
+            async requestMonthData() {
                 const year = this.year === this.currentYear ? '' : `-${this.year}`;
                 const response = await fetch(`${process.env.baseURL}monthly-temperatures${year}.json`, {
                     method: 'GET',

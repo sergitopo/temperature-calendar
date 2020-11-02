@@ -1,7 +1,22 @@
 <template>
-  <div v-if="calculated" class="md-layout md-gutter md-alignment-center" style="margin: 2em; margin-bottom: 3rem">
-    <div v-for="month in months" class="md-layout-item md-large-size-100 centered-text" style="padding-top: 0.5em" :style="{'background': month.color, 'color': month.textColor}">{{month.text || month.name}}</div>
-  </div>
+    <div>
+        <div class="vc-arrows-container title-center">
+            <div v-show="2015 !== year" @click="year--" role="button" class="vc-flex vc-justify-center vc-items-center vc-cursor-pointer vc-select-none vc-pointer-events-auto vc-text-gray-600 vc-rounded vc-border-2 vc-border-transparent hover:vc-opacity-50 hover:vc-bg-gray-300 focus:vc-border-gray-300">
+                <svg data-v-63f7b5ec="" width="26px" height="26px" viewBox="0 -1 16 34" class="vc-svg-icon">
+                    <path data-v-63f7b5ec="" d="M11.196 10c0 0.143-0.071 0.304-0.179 0.411l-7.018 7.018 7.018 7.018c0.107 0.107 0.179 0.268 0.179 0.411s-0.071 0.304-0.179 0.411l-0.893 0.893c-0.107 0.107-0.268 0.179-0.411 0.179s-0.304-0.071-0.411-0.179l-8.321-8.321c-0.107-0.107-0.179-0.268-0.179-0.411s0.071-0.304 0.179-0.411l8.321-8.321c0.107-0.107 0.268-0.179 0.411-0.179s0.304 0.071 0.411 0.179l0.893 0.893c0.107 0.107 0.179 0.25 0.179 0.411z"></path>
+                </svg>
+            </div>
+            <div v-show="currentYear !== year" @click="year++" role="button" class="vc-flex vc-justify-center vc-items-center vc-cursor-pointer vc-select-none vc-pointer-events-auto vc-text-gray-600 vc-rounded vc-border-2 vc-border-transparent hover:vc-opacity-50 hover:vc-bg-gray-300 focus:vc-border-gray-300">
+                <svg data-v-63f7b5ec="" width="26px" height="26px" viewBox="-5 -1 16 34" class="vc-svg-icon">
+                    <path data-v-63f7b5ec="" d="M10.625 17.429c0 0.143-0.071 0.304-0.179 0.411l-8.321 8.321c-0.107 0.107-0.268 0.179-0.411 0.179s-0.304-0.071-0.411-0.179l-0.893-0.893c-0.107-0.107-0.179-0.25-0.179-0.411 0-0.143 0.071-0.304 0.179-0.411l7.018-7.018-7.018-7.018c-0.107-0.107-0.179-0.268-0.179-0.411s0.071-0.304 0.179-0.411l0.893-0.893c0.107-0.107 0.268-0.179 0.411-0.179s0.304 0.071 0.411 0.179l8.321 8.321c0.107 0.107 0.179 0.268 0.179 0.411z"></path>
+                </svg>
+            </div>
+        </div>
+        <div v-if="calculated" class="md-layout md-gutter md-alignment-center" style="margin: 2em; margin-bottom: 3rem">
+            <div style="padding-bottom: 1em; font-size: 1.5rem">{{yearText}}</div>
+            <div v-for="month in months" class="md-layout-item md-large-size-100 centered-text" style="padding-top: 0.5em" :style="{'background': month.color, 'color': month.textColor}">{{month.text || month.name}}</div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -11,6 +26,7 @@
             return {
                 months: ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'],
                 currentYear: 2020,
+                yearAvg: 0,
                 year: 2020,
                 calculated: false,
                 colorPalette: [
@@ -25,6 +41,11 @@
                 colorMapRange: [-2, -1.25, -0.5, 0.5, 1.25, 2]
             }
         },
+        computed: {
+            yearText() {
+                return `${this.year} ${Math.round(this.yearAvg * 100) / 100}`;
+            }
+        },
         layout: 'menu',
         created() {
             this.months = this.months.map(month => {return  {name: month}});
@@ -33,7 +54,9 @@
         methods: {
             calculateMonthsAnomalies() {
                 const whiteColorList = [0,1,5,6];
+                let yearTemperatureAccumulator = 0;
                 this.yearMonthAvgTemperature.aggregations['2'].buckets.forEach((monthData, i) => {
+                    yearTemperatureAccumulator += monthData['1'].value;
                     const month = this.months[i];
                     month.anomaly = monthData['1'].value - this.monthlyAbsoluteAvg.aggregations['2'].buckets[i]['1'].value ;
                     month.color = this.getColorAnomaly(month.anomaly);
@@ -44,6 +67,7 @@
                     month.text = month.anomaly ? `${month.name}  ${numSign}${Math.round(month.anomaly * 100) / 100}` : month.name;
                     
                 });
+                this.yearAvg = yearTemperatureAccumulator /  this.yearMonthAvgTemperature.aggregations['2'].buckets.length;
                 this.calculated = true;
             },
             getColorAnomaly(anomalyTemperature) {
@@ -93,6 +117,26 @@
                 this.calculatedDates = this.calculateMonthsAnomalies();
             }
         },
+        watch: {
+            async year(newVal) {
+                this.calculated = false;
+                const year = this.year === this.currentYear ? '' : `-${this.year}`;
+                const response = await fetch(`${process.env.baseURL}monthly-temperatures${year}.json`, {
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'force-cache',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    redirect: 'follow',
+                    referrerPolicy: 'origin'
+                });
+                this.yearMonthAvgTemperature = await response.json();
+                this.calculatedDates = this.calculateMonthsAnomalies();
+
+            }
+        }
     }
 </script>
 

@@ -174,7 +174,7 @@ export default {
         const response = await fetch(process.env.baseURL + `daily-temperatures${year}.json`, {
             method: 'GET',
             mode: 'cors',
-            cache: 'force-cache',
+            cache: 'no-cache',
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
@@ -186,7 +186,7 @@ export default {
         const response2 = await fetch(process.env.baseURL + 'weekly-avg.json', {
             method: 'GET',
             mode: 'cors',
-            cache: 'force-cache',
+            cache: 'no-cache',
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
@@ -213,7 +213,7 @@ export default {
             const response = await fetch(`${process.env.baseURL}daily-temperatures${year}.json`, {
                 method: 'GET',
                 mode: 'cors',
-                cache: 'force-cache',
+                cache: 'no-cache',
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json'
@@ -225,7 +225,7 @@ export default {
             const response2 = await fetch(process.env.baseURL + 'weekly-avg.json', {
                 method: 'GET',
                 mode: 'cors',
-                cache: 'force-cache',
+                cache: 'no-cache',
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json'

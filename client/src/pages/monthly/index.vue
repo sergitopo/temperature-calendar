@@ -92,7 +92,7 @@
                 const response = await fetch(`${process.env.baseURL}monthly-temperatures${year}.json`, {
                     method: 'GET',
                     mode: 'cors',
-                    cache: 'force-cache',
+                    cache: 'no-cache',
                     credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json'
@@ -104,7 +104,7 @@
                 const response2 = await fetch(process.env.baseURL + 'monthly-avg.json', {
                     method: 'GET',
                     mode: 'cors',
-                    cache: 'force-cache',
+                    cache: 'no-cache',
                     credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json'
@@ -124,7 +124,7 @@
                 const response = await fetch(`${process.env.baseURL}monthly-temperatures${year}.json`, {
                     method: 'GET',
                     mode: 'cors',
-                    cache: 'force-cache',
+                    cache: 'no-cache',
                     credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json'

@@ -12,7 +12,7 @@
                 </svg>
             </div>
         </div>
-        <div v-if="calculated" class="md-layout md-gutter md-alignment-center" style="margin: 2em; margin-bottom: 3rem">
+        <div v-if="calculated" class="md-layout md-gutter md-alignment-center" style="margin: 2em; padding-bottom: 5em;">
             <div style="padding-bottom: 1em; font-size: 1.5rem">{{yearText}}</div>
             <div v-for="month in months" class="md-layout-item md-large-size-100 centered-text" style="padding-top: 0.5em" :style="{'background': month.color, 'color': month.textColor}">{{month.text || month.name}}</div>
         </div>
@@ -20,14 +20,15 @@
 </template>
 
 <script>
+    import currentYear from '@/currentYear';
 
     export default {
         data() {
             return {
                 months: ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'],
-                currentYear: 2020,
+                currentYear,
                 yearAvg: 0,
-                year: 2020,
+                year: currentYear,
                 calculated: false,
                 colorPalette: [
                     '#2166ac',
@@ -55,19 +56,23 @@
             calculateMonthsAnomalies() {
                 const whiteColorList = [0,1,5,6];
                 let yearTemperatureAccumulator = 0;
-                this.yearMonthAvgTemperature.aggregations['2'].buckets.forEach((monthData, i) => {
-                    yearTemperatureAccumulator += monthData['1'].value;
-                    const month = this.months[i];
-                    month.anomaly = monthData['1'].value - this.monthlyAbsoluteAvg.aggregations['2'].buckets[i]['1'].value ;
-                    month.color = this.getColorAnomaly(month.anomaly);
-                    const colorIndex = this.colorPalette.findIndex(color => color === month.color
-                    );
-                    month.textColor = whiteColorList.includes(colorIndex)  ? 'white' : 'black';
-                    const numSign = month.anomaly && month.anomaly > 0 ? '+' : '';
-                    month.text = month.anomaly ? `${month.name}  ${numSign}${Math.round(month.anomaly * 100) / 100}` : month.name;
-                    
-                });
-                this.yearAvg = yearTemperatureAccumulator /  this.yearMonthAvgTemperature.aggregations['2'].buckets.length;
+                try {
+                    this.yearMonthAvgTemperature.aggregations['2'].buckets.forEach((monthData, i) => {
+                        yearTemperatureAccumulator += monthData['1'].value;
+                        const month = this.months[i];
+                        month.anomaly = monthData['1'].value - this.monthlyAbsoluteAvg.aggregations['2'].buckets[i]['1'].value ;
+                        month.color = this.getColorAnomaly(month.anomaly);
+                        const colorIndex = this.colorPalette.findIndex(color => color === month.color
+                        );
+                        month.textColor = whiteColorList.includes(colorIndex)  ? 'white' : 'black';
+                        const numSign = month.anomaly && month.anomaly > 0 ? '+' : '';
+                        month.text = month.anomaly ? `${month.name}  ${numSign}${Math.round(month.anomaly * 100) / 100}` : month.name;
+                        
+                    });
+                    this.yearAvg = yearTemperatureAccumulator /  this.yearMonthAvgTemperature.aggregations['2'].buckets.length;
+                } catch (e) {
+                    this.yearAvg = 0;
+                }
                 this.calculated = true;
             },
             getColorAnomaly(anomalyTemperature) {

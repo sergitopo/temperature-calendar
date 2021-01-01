@@ -2,12 +2,12 @@
     <div>
         <div class="phone-viewport">
             <md-bottom-bar class="md-accent">
-                <md-bottom-bar-item @click="$router.push('/2019')">
-                    <a href='/2020'/>
+                <!-- <md-bottom-bar-item @click="$router.push('/2019')">
+                    <a href='/2021'/>
                     <home-icon/>
                         <span class="md-bottom-bar-label">Inici</span>
-                </md-bottom-bar-item>
-                <md-bottom-bar-item @click="$router.push('/2020')">
+                </md-bottom-bar-item> -->
+                <md-bottom-bar-item @click="$router.push(`/${currentYear}`)">
                     <calendar-icon/>
                         <span class="md-bottom-bar-label">Calendari</span>
                 </md-bottom-bar-item>
@@ -35,6 +35,7 @@ import homeIcon from 'vue-material-design-icons/Home.vue';
 import calendarIcon from 'vue-material-design-icons/CalendarToday.vue';
 import articleIcon from 'vue-material-design-icons/Apps.vue';
 import descriptionIcon from 'vue-material-design-icons/Details.vue';
+import currentYear from '@/currentYear'
 
 
 export default {
@@ -43,6 +44,11 @@ export default {
         calendarIcon,
         articleIcon,
         descriptionIcon
+    },
+    data() {
+        return {
+            currentYear
+        }
     }
 }
 

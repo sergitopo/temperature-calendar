@@ -1,3 +1,4 @@
+import currentYear from '@/currentYear';
 const colorPalette =  [
     'purple',
     'indigo',
@@ -7,7 +8,6 @@ const colorPalette =  [
     'orange',
     'red'
 ];
-const currentYear = 2020;
 const colorMapRange =  [-5, -3.5, -1.5, 1.5, 3.5, 5];
 
 const getWeekNumber = (d) => {
@@ -107,7 +107,7 @@ const calculateCurrentYearAnomalies = (dailyTemperature, weekOfYearAvg,  year) =
     let currentDayProcessed = firstDayOfYear;
     let today = new Date();
     //FEXME
-    if (year !== 2020) {
+    if (year !== currentYear) {
         today == new Date (`12-31-${year}`);
     }
     let dayCounter = 0;

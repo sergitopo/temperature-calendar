@@ -18,12 +18,14 @@
 <script>
 
 import DailyYearAnomaliesCalculator from '@/mixins/DailyYearAnomaliesCalculator';
+import currentYear from '@/currentYear';
+
 
 export default {
     name: 'App',
     data() {
         return {
-            year: 2020
+            year: currentYear
         }
     },
     layout: 'menu',

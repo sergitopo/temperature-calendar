@@ -3,7 +3,7 @@
 
 <script>
 
-const currentYear = 2020;
+import currentYear from '@/currentYear';
 
 export default {
     

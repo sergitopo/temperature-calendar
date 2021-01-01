@@ -9,21 +9,17 @@
                 </md-bottom-bar-item> -->
                 <md-bottom-bar-item @click="$router.push(`/${currentYear}`)">
                     <calendar-icon/>
-                        <span class="md-bottom-bar-label">Calendari</span>
+                        <span class="md-bottom-bar-label">{{calendariText}}</span>
                 </md-bottom-bar-item>
 
                 <md-bottom-bar-item @click="$router.push('/monthly')">
                     <article-icon/>
-                        <span class="md-bottom-bar-label">Mesos</span>
+                        <span class="md-bottom-bar-label">{{mesosText}}</span>
                 </md-bottom-bar-item>
 
-                <md-bottom-bar-item>
-                    <description-icon/>
-                        <span class="md-bottom-bar-label">Anys</span>
-                </md-bottom-bar-item>
             </md-bottom-bar>
         </div>
-        <nuxt/>
+        <Nuxt/>
     </div>
 </template>
 
@@ -47,7 +43,10 @@ export default {
     },
     data() {
         return {
-            currentYear
+            currentYear,
+            anyText: 'Anys',
+            mesosText: 'Mesos',
+            calendariText: 'Calendari',
         }
     }
 }

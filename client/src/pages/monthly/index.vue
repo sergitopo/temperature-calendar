@@ -57,9 +57,15 @@
                 const whiteColorList = [0,1,5,6];
                 let yearTemperatureAccumulator = 0;
                 try {
-                    this.yearMonthAvgTemperature.aggregations['2'].buckets.forEach((monthData, i) => {
+                    this.months.forEach((month, i) =>  {
+                        const monthData = this.yearMonthAvgTemperature.aggregations['2'].buckets[i];
+                        if (monthData === undefined) {
+                            month.anomaly = 0;
+                            month.textColor = 'black';
+                            month.color = 'transparent';
+                            return;
+                        }
                         yearTemperatureAccumulator += monthData['1'].value;
-                        const month = this.months[i];
                         month.anomaly = monthData['1'].value - this.monthlyAbsoluteAvg.aggregations['2'].buckets[i]['1'].value ;
                         month.color = this.getColorAnomaly(month.anomaly);
                         const colorIndex = this.colorPalette.findIndex(color => color === month.color

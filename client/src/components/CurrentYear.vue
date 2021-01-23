@@ -69,12 +69,6 @@ export default {
 .vc-rounded-full {
     border-radius: 0!important;
 }
-.phone-viewport {
-    position: fixed;
-    bottom:1px;
-    width: 100vw;
-    z-index: 2;
-}
 .vc-day-content {
     width: calc(var(--day-content-width) + 10px)!important;
 }
@@ -87,12 +81,5 @@ export default {
 }
 .avoid-forward-arrow .vc-arrows-container.title-center > div:last-child {
     display: none;
-}
-.md-bottom-bar.md-type-fixed .md-bottom-bar-item {
-    min-width: 80px;
-    max-width: unset;
-    transition: .4s cubic-bezier(.4,0,.2,1);
-    transition-property: color;
-    will-change: color;
 }
 </style>

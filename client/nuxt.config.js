@@ -20,6 +20,9 @@ export default {
             { hid: 'description', name: 'description', content: 'Year temperatures anomalies' }
         ]
     },
+    buildModules: [
+        '@nuxtjs/pwa'
+    ],
     generate: {
         routes: [
           '/2016',

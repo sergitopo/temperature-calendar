@@ -25,5 +25,4 @@ package-lock.json
 *.sw?
 client/.nuxt/components/index.js
 client/.nuxt/vetur/tags.json
-client/.nuxt/components/index.js
-client/.nuxt/vetur/tags.json
+code-wsp.code-workspace

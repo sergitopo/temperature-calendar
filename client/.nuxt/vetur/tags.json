@@ -1,9 +1,9 @@
 {
-  "MainMenu": {
-    "description": "Auto imported from components/MainMenu.vue"
+  "CurrentYear": {
+    "description": "Auto imported from components/CurrentYear.vue"
   },
-  "LazyMainMenu": {
-    "description": "Auto imported from components/MainMenu.vue"
+  "LazyCurrentYear": {
+    "description": "Auto imported from components/CurrentYear.vue"
   },
   "Modal": {
     "description": "Auto imported from components/modal.vue"

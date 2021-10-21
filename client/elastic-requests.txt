@@ -19,3 +19,8 @@ curl http://localhost:9200/daily_temperature -XPUT -H 'Content-Type: application
      }
   }}
 }'
+
+
+curl http://localhost:9200/daily_temperature/_delete_by_query -XPOST -H 'Content-Type: application/json' -d '{
+  "query":{"bool":{"must":[{"range":{"date":{"format":"strict_date_optional_time","gte":"2020-12-31T23:00:00.000Z"}}}]}}
+}'

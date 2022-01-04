@@ -11,7 +11,7 @@ const stationId = 'c24m124e03';
 months.forEach(month => {
     rp(`https://www.avamet.org/mx-mes.php?id=c24m124e03&data=${month}`)
         .then(html => {
-            const element = $('input[name ="vdia"]', html)[0];
+            const element = $.default('input[name ="vdia"]', html)[0];
             const values = element.attribs.value.split('%');
             values.forEach(dailyRecord => {
                 const values = dailyRecord.split('|');

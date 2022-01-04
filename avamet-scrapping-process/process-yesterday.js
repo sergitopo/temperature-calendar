@@ -8,7 +8,7 @@ const stationId = 'c24m124e03';
 
 rp(`https://www.avamet.org/mx-mes.php?id=c24m124e03`)
     .then(html => {
-        const element = $('input[name ="vdia"]', html)[0];
+        const element = $.default('input[name ="vdia"]', html)[0];
         const values = element.attribs.value.split('%');
         values.forEach((dailyRecord, index) => {
             if (index + 1 !== values.length) {

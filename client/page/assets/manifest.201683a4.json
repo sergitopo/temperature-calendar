@@ -1,0 +1,10 @@
+{
+  "name": "temperature-calendar",
+  "short_name": "temperature-calendar",
+  "description": "Webapp calendar visualization of temeratures anomalyes",
+  "icons": [],
+  "start_url": "/temperature-calendar/client/page/?standalone=true",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "lang": "en"
+}

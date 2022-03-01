@@ -1,5 +1,5 @@
 {
-    "took": 1,
+    "took": 6,
     "timed_out": false,
     "_shards": {
         "total": 1,
@@ -9,7 +9,7 @@
     },
     "hits": {
         "total": {
-            "value": 2502,
+            "value": 2558,
             "relation": "eq"
         },
         "max_score": 1.0,
@@ -171,58 +171,58 @@
             "buckets": [
                 {
                     "key": 1.0,
-                    "doc_count": 34,
+                    "doc_count": 41,
                     "1": {
-                        "value": 7.582352981847875
+                        "value": 7.775609801455242
                     }
                 },
                 {
                     "key": 2.0,
-                    "doc_count": 49,
+                    "doc_count": 56,
                     "1": {
-                        "value": 6.753061203324065
+                        "value": 6.585714268897261
                     }
                 },
                 {
                     "key": 3.0,
-                    "doc_count": 49,
+                    "doc_count": 56,
                     "1": {
-                        "value": 6.587755131782318
+                        "value": 6.35535717995039
                     }
                 },
                 {
                     "key": 4.0,
-                    "doc_count": 49,
+                    "doc_count": 56,
                     "1": {
-                        "value": 7.822448968887329
+                        "value": 7.8321428426674435
                     }
                 },
                 {
                     "key": 5.0,
-                    "doc_count": 47,
+                    "doc_count": 54,
                     "1": {
-                        "value": 9.899999998985454
+                        "value": 10.040740732793454
                     }
                 },
                 {
                     "key": 6.0,
-                    "doc_count": 42,
+                    "doc_count": 49,
                     "1": {
-                        "value": 8.945238107726688
+                        "value": 8.920408185647458
                     }
                 },
                 {
                     "key": 7.0,
-                    "doc_count": 42,
+                    "doc_count": 49,
                     "1": {
-                        "value": 10.321428582781838
+                        "value": 10.448979621030846
                     }
                 },
                 {
                     "key": 8.0,
-                    "doc_count": 42,
+                    "doc_count": 49,
                     "1": {
-                        "value": 8.859523846989585
+                        "value": 8.953061244925674
                     }
                 },
                 {

@@ -1,4 +1,4 @@
-const costants = {
+const constants = {
     dailyAnomalyColorPalette:  [
         'purple',
         'indigo',

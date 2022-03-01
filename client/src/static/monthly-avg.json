@@ -9,7 +9,7 @@
     },
     "hits": {
         "total": {
-            "value": 2502,
+            "value": 2558,
             "relation": "eq"
         },
         "max_score": 1.0,
@@ -171,16 +171,16 @@
             "buckets": [
                 {
                     "key": 1.0,
-                    "doc_count": 220,
+                    "doc_count": 248,
                     "1": {
-                        "value": 7.754090911217711
+                        "value": 7.633870973281803
                     }
                 },
                 {
                     "key": 2.0,
-                    "doc_count": 170,
+                    "doc_count": 198,
                     "1": {
-                        "value": 9.356470586271847
+                        "value": 9.464646465850599
                     }
                 },
                 {

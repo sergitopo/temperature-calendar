@@ -24,10 +24,10 @@ jobs:
       # Runs a single command using the runners shell
       - name: fetching new data from elastic
         run: |
-          curl http://search-sergitopo-vbzadx2vcwis3vjsbmaw3ruppe.eu-west-1.es.amazonaws.com/daily_temperature/_search -XPOST -H 'Content-Type: application/json' -d '{"aggs":{"2":{"histogram":{"field":"week_number","interval":1,"min_doc_count":1},"aggs":{"1":{"avg":{"field":"t_avg"}}}}}}' > weekly-avg.json
-          curl http://search-sergitopo-vbzadx2vcwis3vjsbmaw3ruppe.eu-west-1.es.amazonaws.com/daily_temperature/_search -XPOST -H 'Content-Type: application/json' -d '{"aggs":{"2":{"histogram":{"field":"month","interval":1,"min_doc_count":1},"aggs":{"1":{"avg":{"field":"t_avg"}}}}}}' > monthly-avg.json
-          curl http://search-sergitopo-vbzadx2vcwis3vjsbmaw3ruppe.eu-west-1.es.amazonaws.com/_search -XPOST -H 'Content-Type: application/json' -d '{"aggs":{"2":{"histogram":{"field":"month","interval":1,"min_doc_count":1},"aggs":{"1":{"avg":{"field":"t_avg"}}}}},"sort":[{"date":{"order":"asc","unmapped_type":"boolean"}}],"query":{"bool":{"must":[{"range":{"date":{"format":"strict_date_optional_time","gte":"2020-12-31T23:00:00.000Z","lte":"now"}}}]}}}' > monthly-temperatures.json
-          curl http://search-sergitopo-vbzadx2vcwis3vjsbmaw3ruppe.eu-west-1.es.amazonaws.com/_search -XPOST -H 'Content-Type: application/json' -d '{"size":500,"sort":[{"date":{"order":"asc","unmapped_type":"boolean"}}],"query":{"bool":{"must":[{"range":{"date":{"format":"strict_date_optional_time","gte":"2020-12-31T23:00:00.000Z","lte":"now"}}}]}}}' > daily-temperatures.json
+          curl http://35.197.22.213:9200/daily_temperature/_search -XPOST -H 'Content-Type: application/json' -d '{"aggs":{"2":{"histogram":{"field":"week_number","interval":1,"min_doc_count":1},"aggs":{"1":{"avg":{"field":"t_avg"}}}}}}' > weekly-avg.json
+          curl http://35.197.22.213:9200/daily_temperature/_search -XPOST -H 'Content-Type: application/json' -d '{"aggs":{"2":{"histogram":{"field":"month","interval":1,"min_doc_count":1},"aggs":{"1":{"avg":{"field":"t_avg"}}}}}}' > monthly-avg.json
+          curl http://35.197.22.213:9200/_search -XPOST -H 'Content-Type: application/json' -d '{"aggs":{"2":{"histogram":{"field":"month","interval":1,"min_doc_count":1},"aggs":{"1":{"avg":{"field":"t_avg"}}}}},"sort":[{"date":{"order":"asc","unmapped_type":"boolean"}}],"query":{"bool":{"must":[{"range":{"date":{"format":"strict_date_optional_time","gte":"2020-12-31T23:00:00.000Z","lte":"now"}}}]}}}' > monthly-temperatures.json
+          curl http://35.197.22.213:9200/_search -XPOST -H 'Content-Type: application/json' -d '{"size":500,"sort":[{"date":{"order":"asc","unmapped_type":"boolean"}}],"query":{"bool":{"must":[{"range":{"date":{"format":"strict_date_optional_time","gte":"2020-12-31T23:00:00.000Z","lte":"now"}}}]}}}' > daily-temperatures.json
           mv *.json ./client/page
       - name: Commit files
         run: |

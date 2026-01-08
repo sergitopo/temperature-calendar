@@ -168,6 +168,7 @@ export default {
     //     this.calculateCurrentYearAnomalies(this.year);
     // },
     async asyncData(context) {
+        console.log('Generating route:', context.route.path, 'name:', context.route.name);
         let year = parseInt(context.route.name);
         year = year ? year : currentYear;
         year = year === currentYear ? '' : `-${year}`;

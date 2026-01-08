@@ -1,8 +1,7 @@
 import Vue from 'vue'
+import * as components from './index'
 
-const globalComponents = {
-}
-
-for (const name in globalComponents) {
-  Vue.component(name, globalComponents[name])
+for (const name in components) {
+  Vue.component(name, components[name])
+  Vue.component('Lazy' + name, components[name])
 }

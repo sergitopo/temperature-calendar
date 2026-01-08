@@ -24,7 +24,7 @@ export default {
     layout: 'menu',
     data() {
         return {
-            year: 2022
+            year: 2023
         }
     },
     mixins: [DailyYearAnomaliesCalculator]

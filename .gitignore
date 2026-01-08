@@ -2,6 +2,8 @@
 /dist
 node_modules
 client/.nuxt
+esdata
+.zencoder
 
 
 # local env files

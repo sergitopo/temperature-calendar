@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <calendar class="avoid-forward-arrow temperature-calendar" @dayclick="getDayTemperatures" @update:to-page="onYearChange" @update:from-page="onYearChange" :from-date="new Date(`01-01-${this.year}`)" v-if="created" :to-date="new Date()" ref="calendar" :attributes="calculatedDates" is-expanded :columns="$screens({ lg: 4, md: 2 }, 1)" :rows="$screens({ lg: 3, md: 6 }, 12)"></calendar>
+        <calendar class="avoid-forward-arrow temperature-calendar" @dayclick="getDayTemperatures" @update:to-page="onYearChange" @update:from-page="onYearChange" :from-date="new Date(`01-01-${this.year}`)" v-if="created" :to-date="new Date(`12-31-${this.year}`)" ref="calendar" :attributes="calculatedDates" is-expanded :columns="$screens({ lg: 4, md: 2 }, 1)" :rows="$screens({ lg: 3, md: 6 }, 12)"></calendar>
         <modal v-if="showDateInfo" @close="showDateInfo = false">
             <slot name="header">
                 <h3 slot="header">{{daySelected.day}}</h3>

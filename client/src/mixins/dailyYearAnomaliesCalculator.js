@@ -106,9 +106,11 @@ const calculateCurrentYearAnomalies = (dailyTemperature, weekOfYearAvg,  year) =
     const firstDayOfYear = new Date (`01-01-${year}`);
     let currentDayProcessed = firstDayOfYear;
     let today = new Date();
+    today.setHours(0, 0, 0, 0);
     //FEXME
     if (year !== currentYear) {
-        today == new Date (`12-31-${year}`);
+        today = new Date (`12-31-${year}`);
+        today.setHours(23, 59, 59, 999);
     }
     let dayCounter = 0;
     while (currentDayProcessed < today) {

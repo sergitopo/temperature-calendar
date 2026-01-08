@@ -44,6 +44,7 @@
         },
         computed: {
             yearText() {
+                if (this.yearAvg === 0) return `${this.year}`;
                 return `${this.year} ${Math.round(this.yearAvg * 100) / 100}`;
             }
         },
@@ -56,13 +57,15 @@
             calculateMonthsAnomalies() {
                 const whiteColorList = [0,1,5,6];
                 let yearTemperatureAccumulator = 0;
+                const currentMonth = new Date().getMonth();
                 try {
                     this.months.forEach((month, i) =>  {
                         const monthData = this.yearMonthAvgTemperature.aggregations['2'].buckets[i];
-                        if (monthData === undefined) {
+                        if (monthData === undefined || (this.year === this.currentYear && i >= currentMonth)) {
                             month.anomaly = 0;
                             month.textColor = 'black';
                             month.color = 'transparent';
+                            month.text = month.name;
                             return;
                         }
                         yearTemperatureAccumulator += monthData['1'].value;
@@ -75,7 +78,8 @@
                         month.text = month.anomaly ? `${month.name}  ${numSign}${Math.round(month.anomaly * 100) / 100}` : month.name;
                         
                     });
-                    this.yearAvg = yearTemperatureAccumulator /  this.yearMonthAvgTemperature.aggregations['2'].buckets.length;
+                    const processedMonthsCount = this.year === this.currentYear ? currentMonth : 12;
+                    this.yearAvg = processedMonthsCount > 0 ? yearTemperatureAccumulator /  processedMonthsCount : 0;
                 } catch (e) {
                     this.yearAvg = 0;
                 }

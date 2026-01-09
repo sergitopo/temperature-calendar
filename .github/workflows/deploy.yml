@@ -30,8 +30,7 @@ jobs:
       
     - name: 4. Executar 'nuxt generate'
       # Canviem directori i executem el generate
-      run: npm run generate
-      working-directory: ./src/frontend
+      run: cd src/frontend && npm run generate
 
     # --- El contingut de la carpeta dist/ es trobarà a src/frontend/dist/ ---
     

@@ -1,5 +1,5 @@
 export default {
-    srcDir: 'src',
+    srcDir: process.env.NODE_ENV === 'production' ? '.' : 'src',
     plugins: [{ src: '@/plugins/calendar', mode: 'client'}, { src: '@/plugins/menu', mode: 'client'}],
     env: {
         baseURL: (process.env.NODE_ENV === 'production' ? 'https://sergitopo.github.io/temperature-calendar' : 'http://localhost:3000/')

@@ -1,4 +1,5 @@
 import currentYear from '@/currentYear';
+import constants from '@/constants';
 const colorPalette =  [
     'purple',
     'indigo',
@@ -173,17 +174,15 @@ export default {
         console.log('Generating route:', context.route.path, 'name:', context.route.name);
         let year = parseInt(context.route.name);
         year = year ? year : currentYear;
-        year = year === currentYear ? '' : `-${year}`;
-        const response = await fetch(process.env.baseURL + `daily-temperatures${year}.json`, {
+        const yearSuffix = year === currentYear ? '' : `-${year}`;
+        const response = await fetch(`${constants.s3BucketUrl}/daily-temperatures${yearSuffix}.json`, {
             method: 'GET',
             mode: 'cors',
             cache: 'no-cache',
-            credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
             },
-            redirect: 'follow',
-            referrerPolicy: 'origin'
+            redirect: 'follow'
         });
         const dailyTemperature = await response.json();
         const response2 = await fetch(process.env.baseURL + 'weekly-avg.json', {
@@ -196,7 +195,6 @@ export default {
             },
             redirect: 'follow',
             referrerPolicy: 'origin'
-
         });
         const weekOfYearAvg = await response2.json();
         const calculatedDates = calculateCurrentYearAnomalies(dailyTemperature, weekOfYearAvg, parseInt(context.route.name));
@@ -213,16 +211,14 @@ export default {
     methods: {
         async requestData() {
             const year = this.year === this.currentYear ? '' : `-${this.year}`;
-            const response = await fetch(`${process.env.baseURL}daily-temperatures${year}.json`, {
+            const response = await fetch(`${constants.s3BucketUrl}/daily-temperatures${year}.json`, {
                 method: 'GET',
                 mode: 'cors',
                 cache: 'no-cache',
-                credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                redirect: 'follow',
-                referrerPolicy: 'origin'
+                redirect: 'follow'
             });
             this.dailyTemperature = await response.json();
             const response2 = await fetch(process.env.baseURL + 'weekly-avg.json', {
@@ -235,7 +231,6 @@ export default {
                 },
                 redirect: 'follow',
                 referrerPolicy: 'origin'
-
             });
             this.weekOfYearAvg = await response2.json();
             this.calculatedDates = calculateCurrentYearAnomalies(this.dailyTemperature, this.weekOfYearAvg, parseInt(this.year));

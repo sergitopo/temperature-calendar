@@ -1,4 +1,5 @@
 const constants = {
+    s3BucketUrl: 'https://year-temperatures.s3.eu-west-1.amazonaws.com',
     dailyAnomalyColorPalette:  [
         'purple',
         'indigo',

@@ -21,6 +21,7 @@
 
 <script>
     import currentYear from '@/currentYear';
+    import constants from '@/constants';
 
     export default {
         data() {
@@ -104,16 +105,14 @@
             },
             async requestMonthData() {
                 const year = this.year === this.currentYear ? '' : `-${this.year}`;
-                const response = await fetch(`${process.env.baseURL}monthly-temperatures${year}.json`, {
+                const response = await fetch(`${constants.s3BucketUrl}/monthly-temperatures${year}.json`, {
                     method: 'GET',
                     mode: 'cors',
                     cache: 'no-cache',
-                    credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    redirect: 'follow',
-                    referrerPolicy: 'origin'
+                    redirect: 'follow'
                 });
                 this.yearMonthAvgTemperature = await response.json();
                 const response2 = await fetch(process.env.baseURL + 'monthly-avg.json', {
@@ -126,7 +125,6 @@
                     },
                     redirect: 'follow',
                     referrerPolicy: 'origin'
-
                 });
                 this.monthlyAbsoluteAvg = await response2.json();
                 this.calculatedDates = this.calculateMonthsAnomalies();
@@ -136,16 +134,14 @@
             async year(newVal) {
                 this.calculated = false;
                 const year = this.year === this.currentYear ? '' : `-${this.year}`;
-                const response = await fetch(`${process.env.baseURL}monthly-temperatures${year}.json`, {
+                const response = await fetch(`${constants.s3BucketUrl}/monthly-temperatures${year}.json`, {
                     method: 'GET',
                     mode: 'cors',
                     cache: 'no-cache',
-                    credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    redirect: 'follow',
-                    referrerPolicy: 'origin'
+                    redirect: 'follow'
                 });
                 this.yearMonthAvgTemperature = await response.json();
                 this.calculatedDates = this.calculateMonthsAnomalies();

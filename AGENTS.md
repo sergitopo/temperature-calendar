@@ -1,0 +1,1 @@
+Always use WSL terminal or Git Bash to run the commands

@@ -176,7 +176,7 @@ export default {
         year = year ? year : currentYear;
         const dailyTempUrl = year === currentYear 
             ? `${constants.s3BucketUrl}/daily-temperatures.json`
-            : `${process.env.baseURL}daily-temperatures-${this.year}.json`;
+            : `${process.env.baseURL}/daily-temperatures-${year}.json`;
         const response = await fetch(dailyTempUrl, {
             method: 'GET',
             mode: 'cors',
@@ -187,7 +187,7 @@ export default {
             redirect: 'follow'
         });
         const dailyTemperature = await response.json();
-        const response2 = await fetch(process.env.baseURL + 'weekly-avg.json', {
+        const response2 = await fetch(process.env.baseURL + '/weekly-avg.json', {
             method: 'GET',
             mode: 'cors',
             cache: 'no-cache',
@@ -214,7 +214,7 @@ export default {
         async requestData() {
             const dailyTempUrl = this.year === this.currentYear 
                 ? `${constants.s3BucketUrl}/daily-temperatures.json`
-                : `${process.env.baseURL}daily-temperatures-${this.year}.json`;
+                : `${process.env.baseURL}/daily-temperatures-${this.year}.json`;
             const response = await fetch(dailyTempUrl, {
                 method: 'GET',
                 mode: 'cors',
@@ -225,7 +225,7 @@ export default {
                 redirect: 'follow'
             });
             this.dailyTemperature = await response.json();
-            const response2 = await fetch(process.env.baseURL + 'weekly-avg.json', {
+            const response2 = await fetch(process.env.baseURL + '/weekly-avg.json', {
                 method: 'GET',
                 mode: 'cors',
                 cache: 'no-cache',

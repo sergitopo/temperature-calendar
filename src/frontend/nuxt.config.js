@@ -7,7 +7,7 @@ export default {
     components: true,
     target: 'static',
     router: {
-        base: process.env.BASE_URL || '/',
+        base: process.env.NODE_ENV === 'production' ? '/temperature-calendar/' : '/',
     },
     build: {
         publicPath: '/assets/'

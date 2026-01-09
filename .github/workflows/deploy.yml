@@ -26,7 +26,7 @@ jobs:
         node-version: '18' # Ajusta la versió de Node.js si la teva aplicació la requereix
 
     - name: 3. Instal·lar Dependències
-      run: npm install
+      run: cd src/frontend && npm install
       
     - name: 4. Executar 'nuxt generate' (Creació de la carpeta dist)
       # Assumeix que al package.json tens el script "generate": "nuxt generate"

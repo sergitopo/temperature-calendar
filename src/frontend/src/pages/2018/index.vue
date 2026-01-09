@@ -17,7 +17,7 @@
 
 <script>
 
-import DailyYearAnomaliesCalculator from '@/mixins/DailyYearAnomaliesCalculator';
+import DailyYearAnomaliesCalculator from '../../mixins/dailyYearAnomaliesCalculator';
 
 export default {
     name: 'App',

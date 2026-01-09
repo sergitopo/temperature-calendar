@@ -1,5 +1,5 @@
-import currentYear from '@/currentYear';
-import constants from '@/constants';
+import currentYear from '../currentYear';
+import constants from '../constants';
 const colorPalette =  [
     'purple',
     'indigo',

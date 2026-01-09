@@ -3,7 +3,7 @@
 
 <script>
 
-import currentYear from '@/currentYear';
+import currentYear from '../currentYear';
 
 export default {
     

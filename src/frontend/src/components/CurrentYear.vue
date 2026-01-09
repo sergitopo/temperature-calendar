@@ -17,8 +17,8 @@
 
 <script>
 
-import DailyYearAnomaliesCalculator from '@/mixins/DailyYearAnomaliesCalculator';
-import currentYear from '@/currentYear';
+import DailyYearAnomaliesCalculator from '../mixins/dailyYearAnomaliesCalculator';
+import currentYear from '../currentYear';
 
 
 export default {

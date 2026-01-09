@@ -25,7 +25,7 @@ import 'vue-material/dist/theme/default.css'
 
 import articleIcon from 'vue-material-design-icons/Apps.vue';
 import calendarIcon from 'vue-material-design-icons/CalendarToday.vue';
-import currentYear from '@/currentYear'
+import currentYear from '../currentYear'
 
 
 export default {

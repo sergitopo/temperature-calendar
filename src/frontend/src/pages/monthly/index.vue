@@ -20,8 +20,8 @@
 </template>
 
 <script>
-    import currentYear from '@/currentYear';
-    import constants from '@/constants';
+    import currentYear from '../../currentYear';
+    import constants from '../../constants';
 
     export default {
         data() {

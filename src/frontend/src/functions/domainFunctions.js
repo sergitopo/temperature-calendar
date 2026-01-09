@@ -1,4 +1,4 @@
-import constants from '@/constants';
+import constants from '../constants';
 
 const colorMapRange = constants.dailyColorAnomalyThresholds;
 const colorPalette = constants.dailyAnomalyColorPalette;

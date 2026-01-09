@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/", (function(a,b){return {data:[{}],fetch:[{year:2020,daySelected:a,showDateInfo:b,calculatedDates:[],created:b,calendar:a,visitedYearSet:new Set([])}],mutations:void 0}}(null,false)));

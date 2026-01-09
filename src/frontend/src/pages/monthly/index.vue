@@ -104,8 +104,10 @@
                 }
             },
             async requestMonthData() {
-                const year = this.year === this.currentYear ? '' : `-${this.year}`;
-                const response = await fetch(`${constants.s3BucketUrl}/monthly-temperatures${year}.json`, {
+                const monthlyTempUrl = this.year === this.currentYear 
+                    ? `${constants.s3BucketUrl}/monthly-temperatures.json`
+                    : `${process.env.baseURL}monthly-temperatures-${this.year}.json`;
+                const response = await fetch(monthlyTempUrl, {
                     method: 'GET',
                     mode: 'cors',
                     cache: 'no-cache',
@@ -133,8 +135,10 @@
         watch: {
             async year(newVal) {
                 this.calculated = false;
-                const year = this.year === this.currentYear ? '' : `-${this.year}`;
-                const response = await fetch(`${constants.s3BucketUrl}/monthly-temperatures${year}.json`, {
+                const monthlyTempUrl = this.year === this.currentYear 
+                    ? `${constants.s3BucketUrl}/monthly-temperatures.json`
+                    : `${process.env.baseURL}monthly-temperatures-${this.year}.json`;
+                const response = await fetch(monthlyTempUrl, {
                     method: 'GET',
                     mode: 'cors',
                     cache: 'no-cache',

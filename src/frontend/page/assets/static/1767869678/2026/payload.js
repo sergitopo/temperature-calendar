@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/2026", {data:[{}],fetch:{},mutations:void 0});

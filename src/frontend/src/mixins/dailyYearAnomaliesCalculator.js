@@ -174,8 +174,10 @@ export default {
         console.log('Generating route:', context.route.path, 'name:', context.route.name);
         let year = parseInt(context.route.name);
         year = year ? year : currentYear;
-        const yearSuffix = year === currentYear ? '' : `-${year}`;
-        const response = await fetch(`${constants.s3BucketUrl}/daily-temperatures${yearSuffix}.json`, {
+        const dailyTempUrl = year === currentYear 
+            ? `${constants.s3BucketUrl}/daily-temperatures.json`
+            : `${process.env.baseURL}daily-temperatures-${this.year}.json`;
+        const response = await fetch(dailyTempUrl, {
             method: 'GET',
             mode: 'cors',
             cache: 'no-cache',
@@ -210,8 +212,10 @@ export default {
     },
     methods: {
         async requestData() {
-            const year = this.year === this.currentYear ? '' : `-${this.year}`;
-            const response = await fetch(`${constants.s3BucketUrl}/daily-temperatures${year}.json`, {
+            const dailyTempUrl = this.year === this.currentYear 
+                ? `${constants.s3BucketUrl}/daily-temperatures.json`
+                : `${process.env.baseURL}daily-temperatures-${this.year}.json`;
+            const response = await fetch(dailyTempUrl, {
                 method: 'GET',
                 mode: 'cors',
                 cache: 'no-cache',

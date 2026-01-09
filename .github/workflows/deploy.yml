@@ -1,49 +1,47 @@
-name: Deploy Nuxt to GitHub Pages
+name: Deploy Nuxt (src/frontend) to GitHub Pages
 
 on:
   push:
     branches:
-      - master # O la branca principal (main) del teu codi
-
-  # Permet executar el workflow manualment des de la pestanya Actions
+      - master # O main
   workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
-    # Configuració de permissions (necessari per a l'acció de desplegament)
     permissions:
-      contents: write # Necessari per escriure a la branca gh-pages
+      contents: write
 
     steps:
     - name: 1. Checkout del Codi
       uses: actions/checkout@v4
 
+    # 2. Configurar Node.js
     - name: 2. Configurar Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18' # Ajusta la versió de Node.js si la teva aplicació la requereix
+        node-version: '18'
 
-    - name: 3. Instal·lar Dependències
-      run: cd src/frontend && npm install
+    # --- CANVI CLAU: Executar comandes DINS de src/frontend ---
+    
+    - name: 3. Instal·lar Dependències a src/frontend
+      # La flag --prefix indica on s'ha d'executar l'npm install
+      run: npm install --prefix src/frontend
       
-    - name: 4. Executar 'nuxt generate' (Creació de la carpeta dist)
-      # Assumeix que al package.json tens el script "generate": "nuxt generate"
+    - name: 4. Executar 'nuxt generate'
+      # Canviem directori i executem el generate
       run: npm run generate
+      working-directory: ./src/frontend
 
+    # --- El contingut de la carpeta dist/ es trobarà a src/frontend/dist/ ---
+    
     - name: 5. Desplegament a GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        # Aquesta variable token és automàtica i permet que el workflow escrigui a la branca de desplegament
         github_token: ${{ secrets.GITHUB_TOKEN }}
         
-        # El directori que Nuxt genera. 
-        # Si Nuxt està configurat per generar en una altra carpeta (e.g., build), canvia-ho.
-        publish_dir: ./dist
+        # CANVI CLAU: La carpeta de publicació ara és src/frontend/dist
+        publish_dir: ./src/frontend/dist 
         
-        # Branca on GitHub Pages buscarà els fitxers (per defecte "gh-pages")
-        publish_branch: gh-pages 
-        
-        # Commita la carpeta dist amb un missatge clar
+        publish_branch: gh-pages
         commit_message: "Deploy: Build de producció ${{ github.event_name }} (${{ github.sha }})"

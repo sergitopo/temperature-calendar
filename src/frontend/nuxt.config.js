@@ -1,5 +1,5 @@
 export default {
-    srcDir: (process.env.NODE_ENV === 'production' ? '.' : 'src'),
+    srcDir: 'src',
     plugins: [{ src: '@/plugins/calendar', mode: 'client'}, { src: '@/plugins/menu', mode: 'client'}],
     env: {
         baseURL: (process.env.NODE_ENV === 'production' ? 'https://sergitopo.github.io/temperature-calendar' : 'http://localhost:3000/')
@@ -7,7 +7,7 @@ export default {
     components: true,
     target: 'static',
     router: {
-        base: process.env.NODE_ENV === 'production' ? '/temperature-calendar/' : '/',
+        base: '/',
     },
     build: {
         publicPath: '/assets/'

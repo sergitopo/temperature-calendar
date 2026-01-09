@@ -7,7 +7,7 @@ export default {
     components: true,
     target: 'static',
     router: {
-        base: '/',
+        base: process.env.BASE_URL || '/',
     },
     build: {
         publicPath: '/assets/'

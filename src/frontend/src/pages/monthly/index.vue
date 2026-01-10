@@ -106,7 +106,7 @@
             async requestMonthData() {
                 const monthlyTempUrl = this.year === this.currentYear 
                     ? `${constants.s3BucketUrl}/monthly-temperatures.json`
-                    : `${process.env.baseURL}monthly-temperatures-${this.year}.json`;
+                    : `${process.env.baseURL}/monthly-temperatures-${this.year}.json`;
                 const response = await fetch(monthlyTempUrl, {
                     method: 'GET',
                     mode: 'cors',
@@ -137,7 +137,7 @@
                 this.calculated = false;
                 const monthlyTempUrl = this.year === this.currentYear 
                     ? `${constants.s3BucketUrl}/monthly-temperatures.json`
-                    : `${process.env.baseURL}monthly-temperatures-${this.year}.json`;
+                    : `${process.env.baseURL}/monthly-temperatures-${this.year}.json`;
                 const response = await fetch(monthlyTempUrl, {
                     method: 'GET',
                     mode: 'cors',

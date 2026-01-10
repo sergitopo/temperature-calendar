@@ -1,1 +1,0 @@
-window.__NUXT__=(function(a){return {staticAssetsBase:"\u002Ftemperature-calendar\u002Fassets\u002Fstatic\u002F1767969192",layout:"menu",error:a,serverRendered:true,routePath:"\u002F2023",config:{_app:{basePath:"\u002Ftemperature-calendar\u002F",assetsPath:"\u002Ftemperature-calendar\u002Fassets\u002F",cdnURL:a}}}}(null));

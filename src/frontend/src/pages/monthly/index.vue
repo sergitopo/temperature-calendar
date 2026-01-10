@@ -117,7 +117,7 @@
                     redirect: 'follow'
                 });
                 this.yearMonthAvgTemperature = await response.json();
-                const response2 = await fetch(process.env.baseURL + 'monthly-avg.json', {
+                const response2 = await fetch(process.env.baseURL + '/monthly-avg.json', {
                     method: 'GET',
                     mode: 'cors',
                     cache: 'no-cache',
